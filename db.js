@@ -17,9 +17,26 @@ async function getAllListings(client) {
     let list = collection.find().toArray();
     return list;
 }
+async function get(client, criteria){
+    const collection = await client.db('sample_airbnb').collection('listingsAndReviews');
+    
+    let list = collection.find(criteria).toArray();
+    return list;   
+}
+async function add(client, data){
+    const collection = await client.db('sample_airbnb').collection('listingsAndReviews');
+    collection.insertOne(data, (error, response) =>{
+        if(error){
+            console.log("lipa");
+            return false;
+        }   else{
+            return true;
+        }
+    });
+}
 
 function close(client) {
     client.close();
     console.log("disconnected");
 }
-module.exports = {connect, getAllListings, close}
+module.exports = {connect, getAllListings, close, get, add}
